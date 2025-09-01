@@ -4,6 +4,7 @@ pragma solidity ^0.8.20;
 import {Script, console} from "forge-std/Script.sol";
 import {Helper} from "./Helper.sol";
 import {IInterchainGasPaymaster} from "@hyperlane-xyz/interfaces/IInterchainGasPaymaster.sol";
+import {HelperUtils} from "../src/HelperUtils.sol";
 
 /*
 ██╗██████╗░██████╗░░█████╗░███╗░░██╗
@@ -55,7 +56,7 @@ contract CheckGasScript is Script, Helper {
      * @notice This function initializes the blockchain environment for deployment
      */
     function setUp() public {
-        // vm.createSelectFork(vm.rpcUrl("base_sepolia"));
+        vm.createSelectFork(vm.rpcUrl("base_sepolia"));
     }
 
     /**
@@ -66,9 +67,7 @@ contract CheckGasScript is Script, Helper {
         uint256 privateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(privateKey);
 
-        uint256 gasAmount = IInterchainGasPaymaster(0xb72A63Cd4148aD41F86f9d22dCe1eCEB65C811e8).quoteGasPayment(
-            uint32(Base_Sepolia), 1e6
-        );
+        uint256 gasAmount = HelperUtils(BASE_helperUtils).getGasMaster(Arb_Sepolia, 5e6);
         console.log("gasAmount", gasAmount);
 
         vm.stopBroadcast();

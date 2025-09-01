@@ -7,6 +7,8 @@ import {IFactory} from "./interfaces/IFactory.sol";
 import {IERC20} from "@openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import {IERC20Metadata} from "@openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import {IPriceFeed} from "./interfaces/IPriceFeed.sol";
+import {IHelperTestnet} from "./interfaces/IHelperTestnet.sol";
+import {IInterchainGasPaymaster} from "@hyperlane-xyz/interfaces/IInterchainGasPaymaster.sol";
 
 contract HelperUtils {
     address public factory;
@@ -28,10 +30,10 @@ contract HelperUtils {
 
         // Calculate collateral value in a separate scope to reduce stack depth
         uint256 tokenValue = _calculateCollateralValue(lendingPool, _user);
-        
+
         // Calculate current borrow amount in a separate scope
         uint256 borrowAmount = _calculateCurrentBorrowAmount(lendingPool, _user);
-        
+
         uint256 maxBorrowAmount = ((tokenValue * ltv) / 1e18) - borrowAmount;
 
         return maxBorrowAmount < totalLiquidity ? maxBorrowAmount : totalLiquidity;
@@ -115,5 +117,13 @@ contract HelperUtils {
         uint256 healthFactor = (collateralValue * (ltv * 1e8 / 1e18)) / (borrowValue);
 
         return healthFactor; // >1e8 is healthy, <1e8 is unhealthy
+    }
+
+    function getGasMaster(uint256 _destinationDomain, uint256 _userAmount) public view returns (uint256) {
+        address helperTestnet = IFactory(factory).helper();
+        (, address interchainGasPaymaster,) = IHelperTestnet(helperTestnet).chains(block.chainid);
+        uint256 gasAmount =
+            IInterchainGasPaymaster(interchainGasPaymaster).quoteGasPayment(uint32(_destinationDomain), _userAmount);
+        return gasAmount;
     }
 }

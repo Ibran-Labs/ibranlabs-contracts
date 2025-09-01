@@ -77,7 +77,7 @@ contract Helper is Script {
     address public oracleBtcUsd = 0xa6c5C0dFe1fBD9e7361B459Fa18C08249805be55;
 
     address public DEPLOYED_helperTestnet = 0x6b07A08C5c42576F5F32e7404eFEf3509D1A99C9;
-    address public BASE_helperUtils = 0x6234F07ad85805D01446BB7D8e1f8E5e2018cEB1;
+    address public BASE_helperUtils = 0x8030dA6FBba0B33D4Ce694B19CD1e1eC50C9d916;
 
 
     address public AVAX_USDC = 0xC014F158EbADce5a8e31f634c0eb062Ce8CDaeFe;
