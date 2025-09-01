@@ -8,11 +8,12 @@ import {ITokenSwap} from "../src/interfaces/ITokenSwap.sol";
 
 contract PairBridgeToken is Script, Helper {
     IbranBridgeTokenSender public ibranBridgeTokenSender;
-    uint256 destinationChainId = 11155420;
+    uint256 destinationChainId = 10;
 
     // only source chain
     function setUp() public {
-        vm.createSelectFork(vm.rpcUrl("base_sepolia"));
+        vm.createSelectFork(vm.rpcUrl("base_mainnet"));
+        // vm.createSelectFork(vm.rpcUrl("base_sepolia"));
     }
 
     function run() public {
@@ -23,7 +24,7 @@ contract PairBridgeToken is Script, Helper {
         if (UsdcBridgeTokenReceiver == address(0)) revert("UsdcBridgeTokenReceiver is not set");
 
         ibranBridgeTokenSender = new IbranBridgeTokenSender(
-            DEPLOYED_helperTestnet,
+            DEPLOYED_helperMainnet,
             MOCK_USDC,
             UsdcBridgeTokenReceiver, // ** otherchain ** RECEIVER BRIDGE
             destinationChainId // ** otherchain ** CHAIN ID
@@ -33,7 +34,7 @@ contract PairBridgeToken is Script, Helper {
 
         if (UsdtBridgeTokenReceiver == address(0)) revert("UsdtBridgeTokenReceiver is not set");
         ibranBridgeTokenSender = new IbranBridgeTokenSender(
-            DEPLOYED_helperTestnet,
+            DEPLOYED_helperMainnet,
             MOCK_USDT,
             UsdtBridgeTokenReceiver, // ** otherchain ** RECEIVER BRIDGE
             destinationChainId // ** otherchain ** CHAIN ID
@@ -43,7 +44,7 @@ contract PairBridgeToken is Script, Helper {
 
         if (BtcBridgeTokenReceiver == address(0)) revert("BtcBridgeTokenReceiver is not set");
         ibranBridgeTokenSender = new IbranBridgeTokenSender(
-            DEPLOYED_helperTestnet,
+            DEPLOYED_helperMainnet,
             MOCK_WBTC,
             BtcBridgeTokenReceiver, // ** otherchain ** RECEIVER BRIDGE
             destinationChainId // ** otherchain ** CHAIN ID
@@ -53,7 +54,7 @@ contract PairBridgeToken is Script, Helper {
 
         if (EthBridgeTokenReceiver == address(0)) revert("EthBridgeTokenReceiver is not set");
         ibranBridgeTokenSender = new IbranBridgeTokenSender(
-            DEPLOYED_helperTestnet,
+            DEPLOYED_helperMainnet,
             MOCK_WETH,
             EthBridgeTokenReceiver, // ** otherchain ** RECEIVER BRIDGE
             destinationChainId // ** otherchain ** CHAIN ID

@@ -3,14 +3,16 @@ pragma solidity ^0.8.23;
 
 import {Script, console} from "forge-std/Script.sol";
 import {HelperUtils} from "../src/HelperUtils.sol";
+import {Helper} from "./Helper.sol";
 
-contract HelperUtilsScript is Script {
+contract HelperUtilsScript is Script, Helper     {
     HelperUtils public helperUtils;
-    address public factory = 0x31c3850D2cBDC5B084D632d1c61d54161790bFF8;
+    address public factory = BASE_lendingPoolFactory;
 
     function setUp() public {
-        // vm.createSelectFork(vm.rpcUrl("core_testnet"));
-        vm.createSelectFork(vm.rpcUrl("base_sepolia"));
+        vm.createSelectFork(vm.rpcUrl("base_mainnet"));
+
+        // vm.createSelectFork(vm.rpcUrl("base_sepolia"));
     }
 
     function run() public {
@@ -28,10 +30,10 @@ contract HelperUtilsScript is Script {
     // forge script HelperUtilsScript --verify --broadcast -vvv --with-gas-price 10000000000 --priority-gas-price 1000000000
     // forge script HelperUtilsScript --broadcast -vvv --verify --verifier etherscan --etherscan-api-key $ETHERSCAN_API_KEY
 
-//     forge verify-contract \
-//   --rpc-url https://node.ghostnet.etherlink.com \
-//   --verifier blockscout \
-//   --verifier-url 'https://testnet.explorer.etherlink.com/api/' \
-//   0x1788042Ef20a790c27758255159D7E815A755320 \
-//   src/hyperlane/HelperUtils.sol:HelperUtils
+    //     forge verify-contract \
+    //   --rpc-url https://node.ghostnet.etherlink.com \
+    //   --verifier blockscout \
+    //   --verifier-url 'https://testnet.explorer.etherlink.com/api/' \
+    //   0x1788042Ef20a790c27758255159D7E815A755320 \
+    //   src/hyperlane/HelperUtils.sol:HelperUtils
 }

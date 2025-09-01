@@ -24,7 +24,8 @@ contract DeployUtilities is Script, Helper {
 
     // only source chain
     function setUp() public {
-        vm.createSelectFork(vm.rpcUrl("base_sepolia"));
+        vm.createSelectFork(vm.rpcUrl("base_mainnet"));
+        // vm.createSelectFork(vm.rpcUrl("base_sepolia"));
     }
 
     function run() public {
@@ -37,7 +38,7 @@ contract DeployUtilities is Script, Helper {
         lendingPoolDeployer = new LendingPoolDeployer();
         console.log("address public lendingPoolDeployer = ", address(lendingPoolDeployer), ";");
         lendingPoolFactory = new LendingPoolFactory(
-            address(isHealthy), address(lendingPoolDeployer), address(protocol), address(DEPLOYED_helperTestnet)
+            address(isHealthy), address(lendingPoolDeployer), address(protocol), address(DEPLOYED_helperMainnet)
         );
         console.log("address public lendingPoolFactory = ", address(lendingPoolFactory), ";");
         lendingPool = new LendingPool(address(MOCK_WETH), address(MOCK_USDC), address(lendingPoolFactory), 7e17);

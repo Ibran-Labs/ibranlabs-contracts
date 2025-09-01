@@ -3,7 +3,7 @@ pragma solidity ^0.8.17;
 
 import {IMessageRecipient} from "@hyperlane-xyz/interfaces/IMessageRecipient.sol";
 import {ITokenSwap} from "./interfaces/ITokenSwap.sol";
-import {IHelperTestnet} from "./interfaces/IHelperTestnet.sol";
+import {IHelperMainnet} from "./interfaces/IHelperMainnet.sol";
 
 /*
 ██╗██████╗░██████╗░░█████╗░███╗░░██╗
@@ -58,20 +58,20 @@ contract IbranBridgeTokenReceiver is IMessageRecipient {
     address public token;
     
     /**
-     * @dev Address of the helper testnet contract
+     * @dev Address of the helper mainnet contract
      */
-    address public helperTestnet;
+    address public helperMainnet;
 
     /**
      * @dev Constructor for the IbranBridgeTokenReceiver contract
-     * @param _helperTestnet Address of the helper testnet contract
+     * @param _helperMainnet Address of the helper mainnet contract
      * @param _token Address of the token contract to mint
      * @notice Initializes the receiver with helper and token addresses, configures mailbox
      * @custom:security Ensure helper and token addresses are valid before deployment
      */
-    constructor(address _helperTestnet, address _token) {
-        helperTestnet = _helperTestnet;
-        (address _mailbox,,) = IHelperTestnet(helperTestnet).chains(block.chainid);
+    constructor(address _helperMainnet, address _token) {
+        helperMainnet = _helperMainnet;
+        (address _mailbox,,) = IHelperMainnet(helperMainnet).chains(block.chainid);
         if (_mailbox == address(0)) revert MailboxNotSet();
         mailbox = _mailbox;
         token = _token;

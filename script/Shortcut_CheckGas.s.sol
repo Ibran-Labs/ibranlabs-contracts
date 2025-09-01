@@ -56,7 +56,9 @@ contract CheckGasScript is Script, Helper {
      * @notice This function initializes the blockchain environment for deployment
      */
     function setUp() public {
-        vm.createSelectFork(vm.rpcUrl("base_sepolia"));
+        vm.createSelectFork(vm.rpcUrl("base_mainnet"));
+
+        // vm.createSelectFork(vm.rpcUrl("base_sepolia"));
     }
 
     /**
@@ -67,7 +69,7 @@ contract CheckGasScript is Script, Helper {
         uint256 privateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(privateKey);
 
-        uint256 gasAmount = HelperUtils(BASE_helperUtils).getGasMaster(Arb_Sepolia, 5e6);
+        uint256 gasAmount = HelperUtils(BASE_helperUtils).getGasMaster(arb_mainnet, 1e5);
         console.log("gasAmount", gasAmount);
 
         vm.stopBroadcast();
@@ -78,4 +80,6 @@ contract CheckGasScript is Script, Helper {
     // forge script CheckGasScript -vvv --broadcast
     //1100071.500000000000000000
     // 1100071500000
+    // 0.002536243470000000
+    // 0.000507248694000000
 }
